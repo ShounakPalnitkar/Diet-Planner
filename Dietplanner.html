@@ -1,0 +1,1004 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI-Powered Smart Plate</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #4a6fa5;
+            --secondary-color: #6b8cae;
+            --accent-color: #ff7e5f;
+            --light-color: #f8f9fa;
+            --dark-color: #343a40;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            min-height: 100vh;
+            overflow-x: hidden;
+            position: relative;
+        }
+        
+        /* Raindrop effect */
+        .raindrop {
+            position: absolute;
+            width: 2px;
+            height: 10px;
+            background: rgba(74, 111, 165, 0.3);
+            border-radius: 0 0 5px 5px;
+            animation: rain linear infinite;
+            z-index: -1;
+        }
+        
+        @keyframes rain {
+            0% {
+                transform: translateY(-100px) rotate(10deg);
+                opacity: 0;
+            }
+            10% {
+                opacity: 0.5;
+            }
+            100% {
+                transform: translateY(100vh) rotate(10deg);
+                opacity: 0;
+            }
+        }
+        
+        .navbar-brand {
+            font-weight: 700;
+            color: var(--primary-color);
+        }
+        
+        .hero-section {
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            padding: 2rem;
+            margin-top: 2rem;
+        }
+        
+        .feature-card {
+            background: white;
+            border-radius: 10px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            transition: transform 0.3s, box-shadow 0.3s;
+            height: 100%;
+        }
+        
+        .feature-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+        }
+        
+        .feature-icon {
+            font-size: 2.5rem;
+            color: var(--accent-color);
+            margin-bottom: 1rem;
+        }
+        
+        .assessment-form {
+            background: white;
+            border-radius: 15px;
+            padding: 2rem;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+        
+        .btn-primary {
+            background-color: var(--primary-color);
+            border-color: var(--primary-color);
+        }
+        
+        .btn-primary:hover {
+            background-color: #3a5a8c;
+            border-color: #3a5a8c;
+        }
+        
+        .dashboard-card {
+            background: white;
+            border-radius: 10px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+        }
+        
+        .nutrient-progress {
+            height: 10px;
+            border-radius: 5px;
+        }
+        
+        .meal-card {
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            transition: transform 0.3s;
+            margin-bottom: 1.5rem;
+        }
+        
+        .meal-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .meal-img {
+            height: 180px;
+            object-fit: cover;
+        }
+        
+        .report-section {
+            background: white;
+            border-radius: 15px;
+            padding: 2rem;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+        
+        footer {
+            background-color: var(--dark-color);
+            color: white;
+            padding: 2rem 0;
+            margin-top: 3rem;
+        }
+    </style>
+</head>
+<body>
+    <!-- Raindrop effect -->
+    <div id="raindrops-container"></div>
+
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm">
+        <div class="container">
+            <a class="navbar-brand" href="#">
+                <i class="fas fa-utensils me-2"></i>Smart Plate AI
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="#features">Features</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#assessment">Assessment</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#dashboard">Dashboard</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#report">Report</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="container hero-section">
+        <div class="row align-items-center">
+            <div class="col-lg-6">
+                <h1 class="display-4 fw-bold mb-4">AI-Powered Smart Plate</h1>
+                <p class="lead mb-4">Budget-friendly meal planning and portion estimation powered by artificial intelligence to help you eat healthier while saving money.</p>
+                <div class="d-flex gap-3">
+                    <a href="#assessment" class="btn btn-primary btn-lg px-4">Get Started</a>
+                    <a href="#features" class="btn btn-outline-secondary btn-lg px-4">Learn More</a>
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <img src="https://images.unsplash.com/photo-1546069901-ba9599a7e63c?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80" alt="Healthy food" class="img-fluid rounded">
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section id="features" class="container my-5 py-5">
+        <div class="text-center mb-5">
+            <h2 class="fw-bold">Smart Features</h2>
+            <p class="lead text-muted">Our AI-powered platform helps you make better food choices</p>
+        </div>
+        <div class="row">
+            <div class="col-md-4">
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-utensils"></i>
+                    </div>
+                    <h4>Portion Estimation</h4>
+                    <p>AI models accurately estimate portion sizes using regression algorithms to help you control your intake.</p>
+                    <p class="text-muted"><small>Models: LinearRegression, XGBoostRegressor</small></p>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-list-alt"></i>
+                    </div>
+                    <h4>Meal Recommendation</h4>
+                    <p>Personalized meal plans based on your budget, nutritional needs, and food preferences.</p>
+                    <p class="text-muted"><small>Models: RandomForest, CatBoost, Neural Networks</small></p>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-chart-line"></i>
+                    </div>
+                    <h4>Grocery Forecasting</h4>
+                    <p>Predict grocery costs and optimize your shopping list with time series forecasting.</p>
+                    <p class="text-muted"><small>Models: ARIMA, Prophet, LSTM</small></p>
+                </div>
+            </div>
+        </div>
+        <div class="row mt-4">
+            <div class="col-md-4">
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-heartbeat"></i>
+                    </div>
+                    <h4>Deficiency Detection</h4>
+                    <p>Identify potential nutritional deficiencies based on your eating habits and health data.</p>
+                    <p class="text-muted"><small>Models: LogisticRegression, GradientBoosting</small></p>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-optimize"></i>
+                    </div>
+                    <h4>Menu Optimization</h4>
+                    <p>Get the most nutritional value for your money with our optimization algorithms.</p>
+                    <p class="text-muted"><small>Models: RLlib, Genetic Algorithms</small></p>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-file-pdf"></i>
+                    </div>
+                    <h4>Detailed Reports</h4>
+                    <p>Download comprehensive reports with nutritional analysis and personalized recommendations.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Assessment Form -->
+    <section id="assessment" class="container my-5 py-5">
+        <div class="row justify-content-center">
+            <div class="col-lg-8">
+                <div class="assessment-form">
+                    <h2 class="fw-bold text-center mb-4">Personalized Nutrition Assessment</h2>
+                    <form id="nutritionForm">
+                        <div class="row mb-4">
+                            <div class="col-md-6 mb-3">
+                                <label for="age" class="form-label">Age</label>
+                                <input type="number" class="form-control" id="age" required>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="gender" class="form-label">Gender</label>
+                                <select class="form-select" id="gender" required>
+                                    <option value="" selected disabled>Select</option>
+                                    <option value="male">Male</option>
+                                    <option value="female">Female</option>
+                                    <option value="other">Other</option>
+                                </select>
+                            </div>
+                        </div>
+                        
+                        <div class="row mb-4">
+                            <div class="col-md-6 mb-3">
+                                <label for="height" class="form-label">Height (cm)</label>
+                                <input type="number" class="form-control" id="height" required>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="weight" class="form-label">Weight (kg)</label>
+                                <input type="number" class="form-control" id="weight" required>
+                            </div>
+                        </div>
+                        
+                        <div class="mb-4">
+                            <label for="activity" class="form-label">Activity Level</label>
+                            <select class="form-select" id="activity" required>
+                                <option value="" selected disabled>Select</option>
+                                <option value="sedentary">Sedentary (little or no exercise)</option>
+                                <option value="light">Lightly active (light exercise 1-3 days/week)</option>
+                                <option value="moderate">Moderately active (moderate exercise 3-5 days/week)</option>
+                                <option value="active">Very active (hard exercise 6-7 days/week)</option>
+                                <option value="extreme">Extremely active (very hard exercise & physical job)</option>
+                            </select>
+                        </div>
+                        
+                        <div class="mb-4">
+                            <label for="goal" class="form-label">Primary Goal</label>
+                            <select class="form-select" id="goal" required>
+                                <option value="" selected disabled>Select</option>
+                                <option value="weight_loss">Weight Loss</option>
+                                <option value="weight_gain">Weight Gain</option>
+                                <option value="maintenance">Maintenance</option>
+                                <option value="muscle_gain">Muscle Gain</option>
+                                <option value="health_improvement">General Health Improvement</option>
+                            </select>
+                        </div>
+                        
+                        <div class="mb-4">
+                            <label for="budget" class="form-label">Weekly Food Budget ($)</label>
+                            <input type="range" class="form-range" id="budget" min="20" max="200" step="5" value="100">
+                            <div class="d-flex justify-content-between">
+                                <span>$20</span>
+                                <span id="budgetValue">$100</span>
+                                <span>$200</span>
+                            </div>
+                        </div>
+                        
+                        <div class="mb-4">
+                            <label class="form-label">Dietary Preferences</label>
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" id="vegetarian">
+                                <label class="form-check-label" for="vegetarian">Vegetarian</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" id="vegan">
+                                <label class="form-check-label" for="vegan">Vegan</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" id="glutenFree">
+                                <label class="form-check-label" for="glutenFree">Gluten Free</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" id="dairyFree">
+                                <label class="form-check-label" for="dairyFree">Dairy Free</label>
+                            </div>
+                        </div>
+                        
+                        <div class="mb-4">
+                            <label for="allergies" class="form-label">Allergies or Intolerances (comma separated)</label>
+                            <input type="text" class="form-control" id="allergies" placeholder="e.g. peanuts, shellfish">
+                        </div>
+                        
+                        <div class="text-center">
+                            <button type="submit" class="btn btn-primary btn-lg px-5">Generate Plan</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Dashboard Section (Initially hidden) -->
+    <section id="dashboard" class="container my-5 py-5" style="display: none;">
+        <div class="text-center mb-5">
+            <h2 class="fw-bold">Your Personalized Nutrition Dashboard</h2>
+            <p class="lead text-muted">AI-generated recommendations based on your assessment</p>
+        </div>
+        
+        <div class="row">
+            <div class="col-lg-4">
+                <div class="dashboard-card">
+                    <h4><i class="fas fa-user-circle me-2"></i>Profile Summary</h4>
+                    <div id="profileSummary">
+                        <!-- Will be populated by JavaScript -->
+                    </div>
+                </div>
+                
+                <div class="dashboard-card">
+                    <h4><i class="fas fa-bullseye me-2"></i>Nutrition Goals</h4>
+                    <div id="nutritionGoals">
+                        <!-- Will be populated by JavaScript -->
+                    </div>
+                </div>
+                
+                <div class="dashboard-card">
+                    <h4><i class="fas fa-chart-pie me-2"></i>Macronutrient Distribution</h4>
+                    <canvas id="macroChart" height="200"></canvas>
+                </div>
+            </div>
+            
+            <div class="col-lg-8">
+                <div class="dashboard-card">
+                    <h4><i class="fas fa-utensils me-2"></i>Weekly Meal Plan</h4>
+                    <div class="table-responsive">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>Day</th>
+                                    <th>Breakfast</th>
+                                    <th>Lunch</th>
+                                    <th>Dinner</th>
+                                    <th>Snacks</th>
+                                </tr>
+                            </thead>
+                            <tbody id="mealPlanTable">
+                                <!-- Will be populated by JavaScript -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                
+                <div class="dashboard-card">
+                    <h4><i class="fas fa-shopping-cart me-2"></i>Grocery List</h4>
+                    <div class="row" id="groceryList">
+                        <!-- Will be populated by JavaScript -->
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="row mt-4">
+            <div class="col-12">
+                <div class="dashboard-card">
+                    <h4><i class="fas fa-chart-bar me-2"></i>Nutritional Analysis</h4>
+                    <div class="mb-3">
+                        <label class="form-label">Calories: <span id="caloriesValue">2000</span>/day</label>
+                        <div class="progress">
+                            <div class="progress-bar bg-success" role="progressbar" style="width: 85%"></div>
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Protein: <span id="proteinValue">120</span>g/day</label>
+                        <div class="progress">
+                            <div class="progress-bar bg-info" role="progressbar" style="width: 75%"></div>
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Carbs: <span id="carbsValue">250</span>g/day</label>
+                        <div class="progress">
+                            <div class="progress-bar bg-warning" role="progressbar" style="width: 60%"></div>
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Fats: <span id="fatsValue">65</span>g/day</label>
+                        <div class="progress">
+                            <div class="progress-bar bg-danger" role="progressbar" style="width: 50%"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Report Section -->
+    <section id="report" class="container my-5 py-5" style="display: none;">
+        <div class="report-section">
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <h2 class="fw-bold">Your Nutrition Report</h2>
+                <button id="downloadReport" class="btn btn-primary">
+                    <i class="fas fa-download me-2"></i>Download PDF
+                </button>
+            </div>
+            
+            <div class="row mb-5">
+                <div class="col-md-6">
+                    <h4><i class="fas fa-user me-2"></i>Personal Information</h4>
+                    <div id="reportPersonalInfo">
+                        <!-- Will be populated by JavaScript -->
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <h4><i class="fas fa-bullseye me-2"></i>Goals & Preferences</h4>
+                    <div id="reportGoals">
+                        <!-- Will be populated by JavaScript -->
+                    </div>
+                </div>
+            </div>
+            
+            <div class="mb-5">
+                <h4><i class="fas fa-chart-pie me-2"></i>Nutritional Breakdown</h4>
+                <div class="row">
+                    <div class="col-md-6">
+                        <canvas id="reportMacroChart" height="250"></canvas>
+                    </div>
+                    <div class="col-md-6">
+                        <h5>Key Nutrients</h5>
+                        <div id="keyNutrients">
+                            <!-- Will be populated by JavaScript -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="mb-5">
+                <h4><i class="fas fa-utensils me-2"></i>Meal Plan Summary</h4>
+                <div class="table-responsive">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Meal</th>
+                                <th>Monday</th>
+                                <th>Tuesday</th>
+                                <th>Wednesday</th>
+                                <th>Thursday</th>
+                                <th>Friday</th>
+                                <th>Saturday</th>
+                                <th>Sunday</th>
+                            </tr>
+                        </thead>
+                        <tbody id="reportMealPlan">
+                            <!-- Will be populated by JavaScript -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            
+            <div class="mb-5">
+                <h4><i class="fas fa-shopping-basket me-2"></i>Budget Analysis</h4>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="card mb-3">
+                            <div class="card-body">
+                                <h5 class="card-title">Estimated Weekly Cost</h5>
+                                <h2 class="text-primary" id="weeklyCost">$75.50</h2>
+                                <p class="text-muted">Within your budget of $100</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="card">
+                            <div class="card-body">
+                                <h5 class="card-title">Cost Saving Tips</h5>
+                                <ul id="costSavingTips">
+                                    <li>Buy seasonal vegetables to save 15-20%</li>
+                                    <li>Purchase grains in bulk for long-term savings</li>
+                                    <li>Consider frozen fruits for smoothies</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div>
+                <h4><i class="fas fa-lightbulb me-2"></i>Recommendations</h4>
+                <div id="recommendations">
+                    <div class="card mb-3">
+                        <div class="card-body">
+                            <h5 class="card-title">Nutritional Adjustments</h5>
+                            <ul>
+                                <li>Increase fiber intake by adding more whole grains</li>
+                                <li>Consider omega-3 supplements or fatty fish twice a week</li>
+                                <li>Monitor iron levels with your current vegetarian preference</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">Long-term Strategies</h5>
+                            <ul>
+                                <li>Meal prep on weekends to save time and money</li>
+                                <li>Track your progress with our mobile app</li>
+                                <li>Schedule a follow-up assessment in 4 weeks</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-4">
+                    <h5>Smart Plate AI</h5>
+                    <p>Budget-friendly meal planning and portion estimation powered by artificial intelligence.</p>
+                </div>
+                <div class="col-md-4">
+                    <h5>Quick Links</h5>
+                    <ul class="list-unstyled">
+                        <li><a href="#features" class="text-white">Features</a></li>
+                        <li><a href="#assessment" class="text-white">Assessment</a></li>
+                        <li><a href="#dashboard" class="text-white">Dashboard</a></li>
+                        <li><a href="#report" class="text-white">Report</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-4">
+                    <h5>Contact Us</h5>
+                    <ul class="list-unstyled">
+                        <li><i class="fas fa-envelope me-2"></i> info@smartplateai.com</li>
+                        <li><i class="fas fa-phone me-2"></i> (123) 456-7890</li>
+                        <li><i class="fas fa-map-marker-alt me-2"></i> 123 AI Street, Tech City</li>
+                    </ul>
+                </div>
+            </div>
+            <hr class="my-4 bg-light">
+            <div class="text-center">
+                <p class="mb-0">&copy; 2023 Smart Plate AI. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    
+    <script>
+        // Initialize raindrops
+        function createRaindrops() {
+            const container = document.getElementById('raindrops-container');
+            const windowWidth = window.innerWidth;
+            const dropsCount = Math.floor(windowWidth / 20); // Adjust density based on screen width
+            
+            for (let i = 0; i < dropsCount; i++) {
+                const drop = document.createElement('div');
+                drop.classList.add('raindrop');
+                
+                // Random properties
+                const left = Math.random() * windowWidth;
+                const animationDuration = 1 + Math.random() * 2; // 1-3 seconds
+                const animationDelay = Math.random() * 5; // 0-5 seconds
+                const opacity = 0.2 + Math.random() * 0.3; // 0.2-0.5
+                const height = 5 + Math.random() * 15; // 5-20px
+                
+                drop.style.left = `${left}px`;
+                drop.style.animationDuration = `${animationDuration}s`;
+                drop.style.animationDelay = `${animationDelay}s`;
+                drop.style.opacity = opacity;
+                drop.style.height = `${height}px`;
+                
+                container.appendChild(drop);
+            }
+        }
+        
+        // Handle budget slider
+        document.getElementById('budget').addEventListener('input', function() {
+            document.getElementById('budgetValue').textContent = `$${this.value}`;
+        });
+        
+        // Sample meal data (in a real app, this would come from your AI models)
+        const sampleMeals = {
+            breakfast: [
+                { name: "Oatmeal with Berries", calories: 300, protein: 8, carbs: 50, fats: 5, cost: 1.50, img: "https://images.unsplash.com/photo-1608500218807-3702591a21e0?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" },
+                { name: "Greek Yogurt Parfait", calories: 250, protein: 15, carbs: 30, fats: 8, cost: 2.00, img: "https://images.unsplash.com/photo-1550583724-b2692b85b150?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" },
+                { name: "Avocado Toast", calories: 350, protein: 10, carbs: 35, fats: 20, cost: 2.50, img: "https://images.unsplash.com/photo-1546069901-4567a149c8a5?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" }
+            ],
+            lunch: [
+                { name: "Quinoa Salad", calories: 400, protein: 12, carbs: 45, fats: 15, cost: 3.50, img: "https://images.unsplash.com/photo-1546069901-4567a149c8a5?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" },
+                { name: "Chicken Wrap", calories: 450, protein: 25, carbs: 35, fats: 20, cost: 4.00, img: "https://images.unsplash.com/photo-1505576399279-565b52d4ac71?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" },
+                { name: "Lentil Soup", calories: 350, protein: 18, carbs: 40, fats: 10, cost: 2.75, img: "https://images.unsplash.com/photo-1547592180-85f173990554?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" }
+            ],
+            dinner: [
+                { name: "Salmon with Veggies", calories: 500, protein: 30, carbs: 25, fats: 25, cost: 5.50, img: "https://images.unsplash.com/photo-1467003909585-2f8a72700288?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" },
+                { name: "Vegetable Stir Fry", calories: 400, protein: 15, carbs: 50, fats: 15, cost: 3.75, img: "https://images.unsplash.com/photo-1546069901-ba9599a7e63c?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" },
+                { name: "Turkey Meatballs", calories: 450, protein: 28, carbs: 30, fats: 22, cost: 4.25, img: "https://images.unsplash.com/photo-1563379926898-05f4575a45d8?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" }
+            ],
+            snacks: [
+                { name: "Mixed Nuts", calories: 200, protein: 6, carbs: 8, fats: 16, cost: 1.00, img: "https://images.unsplash.com/photo-1608248544923-7680a3a6a065?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" },
+                { name: "Fruit Salad", calories: 150, protein: 2, carbs: 35, fats: 1, cost: 1.25, img: "https://images.unsplash.com/photo-1568700949450-36c8b5f49293?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" },
+                { name: "Protein Shake", calories: 180, protein: 20, carbs: 15, fats: 5, cost: 1.75, img: "https://images.unsplash.com/photo-1597074866543-efe7f17c5a1e?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" }
+            ]
+        };
+        
+        const days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
+        
+        // Handle form submission
+        document.getElementById('nutritionForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // Get form values
+            const age = document.getElementById('age').value;
+            const gender = document.getElementById('gender').value;
+            const height = document.getElementById('height').value;
+            const weight = document.getElementById('weight').value;
+            const activity = document.getElementById('activity').value;
+            const goal = document.getElementById('goal').value;
+            const budget = document.getElementById('budget').value;
+            const vegetarian = document.getElementById('vegetarian').checked;
+            const vegan = document.getElementById('vegan').checked;
+            const glutenFree = document.getElementById('glutenFree').checked;
+            const dairyFree = document.getElementById('dairyFree').checked;
+            const allergies = document.getElementById('allergies').value;
+            
+            // In a real app, you would send this data to your AI models
+            // For this demo, we'll simulate a response
+            
+            // Update profile summary
+            document.getElementById('profileSummary').innerHTML = `
+                <p><strong>Age:</strong> ${age}</p>
+                <p><strong>Gender:</strong> ${gender.charAt(0).toUpperCase() + gender.slice(1)}</p>
+                <p><strong>Height:</strong> ${height} cm</p>
+                <p><strong>Weight:</strong> ${weight} kg</p>
+                <p><strong>BMI:</strong> ${(weight / ((height/100) * (height/100))).toFixed(1)}</p>
+            `;
+            
+            // Update nutrition goals
+            let goalText = '';
+            switch(goal) {
+                case 'weight_loss':
+                    goalText = 'Caloric deficit for gradual weight loss';
+                    document.getElementById('caloriesValue').textContent = Math.round(weight * 30 * 0.8);
+                    break;
+                case 'weight_gain':
+                    goalText = 'Caloric surplus for healthy weight gain';
+                    document.getElementById('caloriesValue').textContent = Math.round(weight * 30 * 1.2);
+                    break;
+                case 'muscle_gain':
+                    goalText = 'High protein intake for muscle growth';
+                    document.getElementById('caloriesValue').textContent = Math.round(weight * 30 * 1.1);
+                    document.getElementById('proteinValue').textContent = Math.round(weight * 2.2);
+                    break;
+                case 'health_improvement':
+                    goalText = 'Balanced nutrition for overall health';
+                    document.getElementById('caloriesValue').textContent = Math.round(weight * 30);
+                    break;
+                default:
+                    goalText = 'Maintaining current weight';
+                    document.getElementById('caloriesValue').textContent = Math.round(weight * 30);
+            }
+            
+            document.getElementById('nutritionGoals').innerHTML = `
+                <p><strong>Primary Goal:</strong> ${goalText}</p>
+                <p><strong>Activity Level:</strong> ${document.getElementById('activity').options[document.getElementById('activity').selectedIndex].text}</p>
+                <p><strong>Weekly Budget:</strong> $${budget}</p>
+                <p><strong>Dietary Preferences:</strong> ${vegetarian ? 'Vegetarian ' : ''}${vegan ? 'Vegan ' : ''}${glutenFree ? 'Gluten-Free ' : ''}${dairyFree ? 'Dairy-Free ' : ''}${!vegetarian && !vegan && !glutenFree && !dairyFree ? 'None' : ''}</p>
+                ${allergies ? `<p><strong>Allergies:</strong> ${allergies}</p>` : ''}
+            `;
+            
+            // Generate meal plan
+            const mealPlanTable = document.getElementById('mealPlanTable');
+            mealPlanTable.innerHTML = '';
+            
+            days.forEach(day => {
+                const row = document.createElement('tr');
+                
+                const dayCell = document.createElement('td');
+                dayCell.textContent = day;
+                row.appendChild(dayCell);
+                
+                // Add random meals for each time of day
+                ['breakfast', 'lunch', 'dinner', 'snacks'].forEach(mealType => {
+                    const meals = sampleMeals[mealType];
+                    const randomMeal = meals[Math.floor(Math.random() * meals.length)];
+                    
+                    const cell = document.createElement('td');
+                    cell.innerHTML = `
+                        <div class="meal-card">
+                            <img src="${randomMeal.img}" alt="${randomMeal.name}" class="img-fluid meal-img">
+                            <div class="p-3">
+                                <h6>${randomMeal.name}</h6>
+                                <small class="text-muted">${randomMeal.calories} cal | $${randomMeal.cost.toFixed(2)}</small>
+                            </div>
+                        </div>
+                    `;
+                    row.appendChild(cell);
+                });
+                
+                mealPlanTable.appendChild(row);
+            });
+            
+            // Generate grocery list
+            const groceryList = document.getElementById('groceryList');
+            groceryList.innerHTML = '';
+            
+            const groceries = [
+                { name: "Oats", category: "Grains", amount: "500g" },
+                { name: "Greek Yogurt", category: "Dairy", amount: "1kg" },
+                { name: "Mixed Berries", category: "Fruits", amount: "300g" },
+                { name: "Chicken Breast", category: "Meat", amount: "1kg" },
+                { name: "Quinoa", category: "Grains", amount: "400g" },
+                { name: "Salmon Fillet", category: "Fish", amount: "600g" },
+                { name: "Mixed Vegetables", category: "Vegetables", amount: "1kg" },
+                { name: "Almonds", category: "Nuts", amount: "200g" }
+            ];
+            
+            groceries.forEach(item => {
+                const col = document.createElement('div');
+                col.className = 'col-md-3 col-6 mb-3';
+                col.innerHTML = `
+                    <div class="card h-100">
+                        <div class="card-body">
+                            <h6 class="card-title">${item.name}</h6>
+                            <p class="card-text text-muted small">${item.category} · ${item.amount}</p>
+                        </div>
+                    </div>
+                `;
+                groceryList.appendChild(col);
+            });
+            
+            // Create charts
+            createMacroChart();
+            createReportMacroChart();
+            
+            // Show dashboard and report sections
+            document.getElementById('dashboard').style.display = 'block';
+            document.getElementById('report').style.display = 'block';
+            
+            // Scroll to dashboard
+            document.getElementById('dashboard').scrollIntoView({ behavior: 'smooth' });
+            
+            // Update report sections
+            updateReportSections(age, gender, height, weight, activity, goal, budget, vegetarian, vegan, glutenFree, dairyFree, allergies);
+        });
+        
+        // Create macro nutrient chart
+        function createMacroChart() {
+            const ctx = document.getElementById('macroChart').getContext('2d');
+            new Chart(ctx, {
+                type: 'doughnut',
+                data: {
+                    labels: ['Protein', 'Carbohydrates', 'Fats'],
+                    datasets: [{
+                        data: [30, 40, 30],
+                        backgroundColor: [
+                            '#4a6fa5',
+                            '#6b8cae',
+                            '#ff7e5f'
+                        ],
+                        borderWidth: 0
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        legend: {
+                            position: 'bottom'
+                        }
+                    }
+                }
+            });
+        }
+        
+        // Create report macro nutrient chart
+        function createReportMacroChart() {
+            const ctx = document.getElementById('reportMacroChart').getContext('2d');
+            new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: ['Protein', 'Carbs', 'Fats', 'Fiber', 'Sugar'],
+                    datasets: [{
+                        label: 'Daily Intake (g)',
+                        data: [120, 250, 65, 25, 30],
+                        backgroundColor: [
+                            '#4a6fa5',
+                            '#6b8cae',
+                            '#ff7e5f',
+                            '#6bbaa7',
+                            '#f6c667'
+                        ]
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    scales: {
+                        y: {
+                            beginAtZero: true
+                        }
+                    }
+                }
+            });
+        }
+        
+        // Update report sections
+        function updateReportSections(age, gender, height, weight, activity, goal, budget, vegetarian, vegan, glutenFree, dairyFree, allergies) {
+            // Personal info
+            document.getElementById('reportPersonalInfo').innerHTML = `
+                <p><strong>Age:</strong> ${age}</p>
+                <p><strong>Gender:</strong> ${gender.charAt(0).toUpperCase() + gender.slice(1)}</p>
+                <p><strong>Height:</strong> ${height} cm</p>
+                <p><strong>Weight:</strong> ${weight} kg</p>
+                <p><strong>BMI:</strong> ${(weight / ((height/100) * (height/100))).toFixed(1)}</p>
+            `;
+            
+            // Goals
+            let goalDetails = '';
+            switch(goal) {
+                case 'weight_loss':
+                    goalDetails = 'Caloric deficit of 15-20% for gradual weight loss (0.5-1kg per week)';
+                    break;
+                case 'weight_gain':
+                    goalDetails = 'Caloric surplus of 10-15% for healthy weight gain (0.25-0.5kg per week)';
+                    break;
+                case 'muscle_gain':
+                    goalDetails = 'High protein intake (1.6-2.2g per kg body weight) with resistance training';
+                    break;
+                case 'health_improvement':
+                    goalDetails = 'Balanced macronutrients with emphasis on micronutrient diversity';
+                    break;
+                default:
+                    goalDetails = 'Maintenance of current weight with balanced nutrition';
+            }
+            
+            document.getElementById('reportGoals').innerHTML = `
+                <p><strong>Primary Goal:</strong> ${goalDetails}</p>
+                <p><strong>Activity Level:</strong> ${document.getElementById('activity').options[document.getElementById('activity').selectedIndex].text}</p>
+                <p><strong>Weekly Budget:</strong> $${budget}</p>
+                <p><strong>Dietary Preferences:</strong> ${vegetarian ? 'Vegetarian ' : ''}${vegan ? 'Vegan ' : ''}${glutenFree ? 'Gluten-Free ' : ''}${dairyFree ? 'Dairy-Free ' : ''}${!vegetarian && !vegan && !glutenFree && !dairyFree ? 'None' : ''}</p>
+                ${allergies ? `<p><strong>Allergies:</strong> ${allergies}</p>` : ''}
+            `;
+            
+            // Key nutrients
+            document.getElementById('keyNutrients').innerHTML = `
+                <div class="mb-3">
+                    <label class="form-label">Iron: <span class="fw-bold">12mg</span> (85% RDA)</label>
+                    <div class="progress nutrient-progress">
+                        <div class="progress-bar" role="progressbar" style="width: 85%"></div>
+                    </div>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Calcium: <span class="fw-bold">1000mg</span> (75% RDA)</label>
+                    <div class="progress nutrient-progress">
+                        <div class="progress-bar" role="progressbar" style="width: 75%"></div>
+                    </div>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Vitamin D: <span class="fw-bold">400IU</span> (50% RDA)</label>
+                    <div class="progress nutrient-progress">
+                        <div class="progress-bar" role="progressbar" style="width: 50%"></div>
+                    </div>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Fiber: <span class="fw-bold">25g</span> (100% RDA)</label>
+                    <div class="progress nutrient-progress">
+                        <div class="progress-bar" role="progressbar" style="width: 100%"></div>
+                    </div>
+                </div>
+            `;
+            
+            // Meal plan in report
+            const reportMealPlan = document.getElementById('reportMealPlan');
+            reportMealPlan.innerHTML = '';
+            
+            const mealTimes = ['Breakfast', 'Lunch', 'Dinner', 'Snack'];
+            
+            mealTimes.forEach(meal => {
+                const row = document.createElement('tr');
+                
+                const mealCell = document.createElement('td');
+                mealCell.textContent = meal;
+                row.appendChild(mealCell);
+                
+                days.forEach(day => {
+                    const meals = sampleMeals[meal.toLowerCase()];
+                    const randomMeal = meals[Math.floor(Math.random() * meals.length)];
+                    
+                    const cell = document.createElement('td');
+                    cell.innerHTML = `<small>${randomMeal.name}<br>${randomMeal.calories} cal</small>`;
+                    row.appendChild(cell);
+                });
+                
+                reportMealPlan.appendChild(row);
+            });
+        }
+        
+        // Download report as PDF
+        document.getElementById('downloadReport').addEventListener('click', function() {
+            const { jsPDF } = window.jspdf;
+            const doc = new jsPDF();
+            
+            // Add title
+            doc.setFontSize(20);
+            doc.text('AI-Powered Smart Plate Nutrition Report', 105, 20, { align: 'center' });
+            
+            // Add date
+            doc.setFontSize(12);
+            doc.text(`Generated on: ${new Date().toLocaleDateString()}`, 105, 30, { align: 'center' });
+            
+            // Add some sample content (in a real app, you would use html2canvas to capture the report section)
+            doc.setFontSize(14);
+            doc.text('Personal Information', 20, 50);
+            doc.setFontSize(12);
+            doc.text(`Age: ${document.getElementById('age').value}`, 20, 60);
+            doc.text(`Gender: ${document.getElementById('gender').value}`, 20, 70);
+            doc.text(`Height: ${document.getElementById('height').value} cm`, 20, 80);
+            doc.text(`Weight: ${document.getElementById('weight').value} kg`, 20, 90);
+            
+            // Save the PDF
+            doc.save('SmartPlate-Report.pdf');
+        });
+        
+        // Initialize the page
+        window.addEventListener('load', function() {
+            createRaindrops();
+        });
+        
+        // Responsive adjustments
+        window.addEventListener('resize', function() {
+            document.getElementById('raindrops-container').innerHTML = '';
+            createRaindrops();
+        });
+    </script>
+</body>
+</html>
